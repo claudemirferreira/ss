@@ -16,38 +16,51 @@
  */
 // Define any routes for the app
 // Note that this app is a single page app, and each partial is routed to using the URL fragment. For example, to select the 'home' route, the URL is http://localhost:8080/jboss-as-kitchensink-angularjs/#/home
-angular.module('kitchensink', [ 'membersService' ])
-.controller('MainController', function($scope, $route, $routeParams, $location) {
-			$scope.$route = $route;
-			$scope.$location = $location;
-			$scope.$routeParams = $routeParams;
-		})
+angular.module('kitchensink', [ 'membersService', 'ngRoute', 'ngAnimate' ])
+		.controller('MainController',
+				function($scope, $route, $routeParams, $location) {
+					$scope.$route = $route;
+					$scope.$location = $location;
+					$scope.$routeParams = $routeParams;
+				})
 
 		.controller('BookController', function($scope, $routeParams) {
 			$scope.name = "BookController";
 			$scope.params = $routeParams;
 		})
-		
+
 		.controller('ChapterController', function($scope, $routeParams) {
 			$scope.name = "ChapterController";
 			$scope.params = $routeParams;
 		})
 
-.config([ '$routeProvider', function($routeProvider) {
-	$routeProvider.
-	// if URL fragment is /home, then load the home partial, with the
-	// MembersCtrl controller
-	when('/home', {
-		templateUrl : 'partials/home.html',
-		controller : MembersCtrl
-	// Add a default route
-	}).when('/Book/:bookId/ch/:chapterId', {
-		templateUrl : 'partials/chapter.html',
-		controller : 'ChapterController'
-	}).when('/Book/:bookId/ch/:chapterId', {
-		templateUrl : 'partials/chapter.html',
-		controller : 'ChapterController'
-	}).otherwise({
-		redirectTo : '/home'
-	});
-} ]);
+		.config([ '$routeProvider', function($routeProvider) {
+			$routeProvider.
+			// if URL fragment is /home, then load the home partial, with the
+			// MembersCtrl controller
+			when('/home', {
+				templateUrl : 'partials/home.html',
+				controller : MembersCtrl
+			// Add a default route
+			}).when('/about', {
+				templateUrl : 'partials/page-about.html',
+				controller : 'aboutController'
+			}).when('/contact', {
+				templateUrl : 'partials/page-contact.html',
+				controller : 'contactController'
+			}).otherwise({
+				redirectTo : '/home'
+			});
+		} ]);
+
+animateApp.controller('mainController', function($scope) {
+	$scope.pageClass = 'page-home';
+});
+
+animateApp.controller('aboutController', function($scope) {
+	$scope.pageClass = 'page-about';
+});
+
+animateApp.controller('contactController', function($scope) {
+	$scope.pageClass = 'page-contact';
+});
