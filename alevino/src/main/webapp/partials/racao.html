@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div>
+    <h1>Welcome to JBoss!</h1>
+
+    <div>
+        <p>You have successfully deployed a Java EE 6 Enterprise
+            Application.</p>
+    </div>
+
+    <!-- Standard HTML form, with the submit function bound to the register() function defined in the the controller -->
+    <form id="reg" ng-submit="register()">
+        <h2>Racao Registration</h2>
+        <fieldset>
+            <legend>Register a racao:</legend>
+            <!-- Each input is bound to a property on the prototype newRacao object -->
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" name="nome" id="nome"  ng-model="newRacao.nome" placeholder="Your Nome" required autofocus/>
+                <span class="error" ng-show="errors.nome">{{errors.nome}}</span>
+            </div>
+            <div>
+                <label for="preco">Preco #:</label>
+                <input type="tel" name="preco" id="preco" ng-model="newRacao.preco" pattern="[0-9]{10,12}" placeholder="Your preco #" required/>
+                <span class="error" ng-show="errors.preco">{{errors.preco}}</span>
+            </div>
+            
+            <!-- We output a list of success messages (appropriately styled!) for the form. -->
+            <ul ng-hide="!successMessages" class="success">
+                <li ng-repeat="message in successMessages">{{message}}</li>
+            </ul>
+
+            <!-- Output the list of error messages if any. -->
+            <ul ng-hide="!errorMessages" class="error">
+                <li ng-repeat="message in errorMessages">{{message}}</li>
+            </ul>
+
+            <!-- There are two buttons, the default submit action (which is bound for the whole form), and a reset button, that clears the form. -->
+            <div>
+                <input type="submit" id="register" value="Register" />
+                <input type="button" ng-click="reset()" name="cancel"
+                    id="cancel" value="Cancel" />
+            </div>
+        </fieldset>
+    </form>
+
+    <!-- A list of registered racaos -->
+    <h2>Racaos</h2>
+    <!-- If there are no racaos registered, instead of showing the table, we show a simple message. -->
+    <em ng-show="racaos.length == 0">No registered racaos.</em>
+    <table ng-hide="racaos.length == 0" class="simpletablestyle">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Preco #</th>
+                <th>REST URL</th>
+            </tr>
+        </thead>
+        <!-- The table is built using the AngularJS repeat function, iterating over the racaos variable, and ordering by the property specified in the orderBy variable -->
+        <tr ng-repeat="racao in racaos | orderBy:orderBy">
+            <td>{{racao.id}}</td>
+            <td>{{racao.nome}}</td>
+            <td>{{racao.preco}}</td>
+            <td><a href="rest/racaos/{{racao.id}}">/rest/racaos/{{racao.id}}</a>
+            </td>
+    </table>
+    <div>
+        REST URL for all racaos: <a href="rest/racaos">/rest/racaos</a>
+    </div>
+    <div>
+        <!-- The table has a button to manually refresh the values, in case, for example, someone else adds a racao -->
+        <input type="button" ng-click="refresh()" name="refresh"
+            id="refresh" value="Refresh" />
+    </div>
+</div>
