@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div>
-    <h1>Welcome to JBoss!</h1>
-
     <!-- Standard HTML form, with the submit function bound to the register() function defined in the the controller -->
     <form id="reg" ng-submit="register()">
-        <h2>Racao Registration</h2>
         <fieldset>
-            <legend>Register a racao:</legend>
+            <legend>Cadastrar Racao:</legend>
             <!-- Each input is bound to a property on the prototype newRacao object -->
             <div>
-                <label for="name">Name:</label>
+                <label for="name">Nome:</label>
                 <input type="text" name="nome" id="nome"  ng-model="newRacao.nome" placeholder="Your Nome" required autofocus/>
                 <span class="error" ng-show="errors.nome">{{errors.nome}}</span>
             </div>
             <div>
-                <label for="preco">Preco #:</label>
+                <label for="preco">Preco:</label>
                 <input type="number" name="preco" id="preco" ng-model="newRacao.preco" placeholder="Your preco #" required/>
                 <span class="error" ng-show="errors.preco">{{errors.preco}}</span>
             </div>
@@ -31,15 +28,15 @@
 
             <!-- There are two buttons, the default submit action (which is bound for the whole form), and a reset button, that clears the form. -->
             <div>
-                <input type="submit" id="register" value="Register" />
+                <input type="submit" id="register" value="Register" class="btn btn-mini btn-primary"/>
                 <input type="button" ng-click="reset()" name="cancel"
-                    id="cancel" value="Cancel" />
+                    id="cancel" value="Cancel" class="btn btn-mini btn-danger"/>
             </div>
         </fieldset>
     </form>
 
     <!-- A list of registered racaos -->
-    <h2>Racaos</h2>
+    <h2>Listagem de Racao</h2>
     <!-- If there are no racaos registered, instead of showing the table, we show a simple message. -->
     <em ng-show="racaos.length == 0">No registered racaos.</em>
     <table ng-hide="racaos.length == 0" class="simpletablestyle">
@@ -64,7 +61,7 @@
     </div>
     <div>
         <!-- The table has a button to manually refresh the values, in case, for example, someone else adds a racao -->
-        <input type="button" ng-click="refresh()" name="refresh"
+        <input type="button" ng-click="refresh()" name="refresh" class="btn btn-mini btn-info"
             id="refresh" value="Refresh" />
     </div>
 </div>

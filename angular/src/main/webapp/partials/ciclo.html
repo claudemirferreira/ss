@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div>
+	<!-- Standard HTML form, with the submit function bound to the register() function defined in the the controller -->
+	<form id="reg" ng-submit="register()">
+		<fieldset>
+			<legend>Cadastrar Ciclo:</legend>
+			<!-- Each input is bound to a property on the prototype newCiclo object -->
+			<div>
+				<label for="periodo">Periodo:</label> <input type="text" name="periodo"
+					id="periodo" ng-model="newCiclo.periodo" placeholder="Your Periodo"
+					required autofocus /> <span class="error" ng-show="errors.periodo">{{errors.periodo}}</span>
+			</div>
+			<div>
+				<label for="preco">Data Inicio:</label> 
+				<input type="date" name="dataInicio" pattern="dd/MM/YYYY"
+					id="dataInicio" ng-model="newCiclo.dataInicio" placeholder="Your dataInicio"
+					required /> <span class="error" ng-show="errors.dataInicio">{{errors.dataInicio}}</span>
+					
+				<a href="#" editable-bsdate="dataInicio" e-datepicker-popup="dd-MMMM-yyyy">
+				    {{ (user.dob | date:"dd/MM/yyyy") || 'empty' }}
+				  </a>
+			</div>
+
+			<!-- We output a list of success messages (appropriately styled!) for the form. -->
+			<ul ng-hide="!successMessages" class="success">
+				<li ng-repeat="message in successMessages">{{message}}</li>
+			</ul>
+
+			<!-- Output the list of error messages if any. -->
+			<ul ng-hide="!errorMessages" class="error">
+				<li ng-repeat="message in errorMessages">{{message}}</li>
+			</ul>
+
+			<!-- There are two buttons, the default submit action (which is bound for the whole form), and a reset button, that clears the form. -->
+			<div>
+				<input type="submit" id="register" value="Register"
+					class="btn btn-mini btn-primary" /> <input type="button"
+					ng-click="reset()" name="cancel" id="cancel" value="Cancel"
+					class="btn btn-mini btn-danger" />
+			</div>
+		</fieldset>
+	</form>
+
+	<!-- A list of registered ciclos -->
+	<h2>Listagem de Ciclo</h2>
+	<!-- If there are no ciclos registered, instead of showing the table, we show a simple message. -->
+	<em ng-show="ciclos.length == 0">No registered ciclos.</em>
+	<table ng-hide="ciclos.length == 0" class="simpletablestyle">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Periodo</th>
+				<th>Data Inicio</th>
+				<th>Data Fim</th>
+				<th>REST URL</th>
+			</tr>
+		</thead>
+		<!-- The table is built using the AngularJS repeat function, iterating over the ciclos variable, and ordering by the property specified in the orderBy variable -->
+		<tr ng-repeat="ciclo in ciclos | orderBy:orderBy">
+			<td>{{ciclo.id}}</td>
+			<td>{{ciclo.periodo}}</td>
+			<td>{{ciclo.dataInicio}}</td>
+			<td>{{ciclo.dataFim}}</td>
+			<td><a href="rest/ciclos/{{ciclo.id}}">/rest/ciclos/{{ciclo.id}}</a>
+			</td>
+	</table>
+	<div>
+		REST URL for all ciclos: <a href="rest/ciclos">/rest/ciclos</a>
+	</div>
+	<div>
+		<!-- The table has a button to manually refresh the values, in case, for example, someone else adds a ciclo -->
+		<input type="button" ng-click="refresh()" name="refresh"
+			class="btn btn-mini btn-info" id="refresh" value="Refresh" />
+	</div>
+</div>

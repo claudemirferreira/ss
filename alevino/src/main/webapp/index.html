@@ -22,6 +22,40 @@
 
 </head>
 <body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">WebSiteName</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" href="#">Cadastro <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#/home">Home</a></li>
+							<li><a href="#/racao">Racao</a></li>
+							<li><a href="#/contact">Contact</a></li>
+							<li><a href="#/member">Member</a></li>
+						</ul></li>
+					<li><a href="#">Page 2</a></li>
+					<li><a href="#">Page 3</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
+							Sign Up</a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+							Login</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
 	<aside id="container">
 		<div>
 			<section class="top-bar-section">
@@ -37,14 +71,6 @@
 		<div id="content" ng-view>
 			<!-- This div will be templated by AngularJS -->
 			[Template content will be inserted here]
-		</div>
-		<div id="aside">
-			<p>Learn more about JBoss Enterprise Application Platform 6.</p>
-			<ul>
-				<li><a
-					href="https://access.redhat.com/knowledge/docs/JBoss_Enterprise_Application_Platform/">Documentation</a></li>
-				<li><a href="http://red.ht/jbeap-6">Product Information</a></li>
-			</ul>
 		</div>
 		<footer id="footer">
 			<p>
