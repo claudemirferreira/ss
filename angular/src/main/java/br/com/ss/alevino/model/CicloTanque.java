@@ -7,9 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "pisc_ciclo_tanque")
@@ -24,16 +25,15 @@ public class CicloTanque extends AbstractEntity implements Serializable {
 	private Long id;
 
 	@Column(nullable = false)
-	private int quanidadePeixe;
+	private int quantidadePeixe;
 
-	// @EmbeddedId
-	// private CicloTanquePk cicloTanquePk = new CicloTanquePk();
-
-	@Transient
-	private Tanque tanque;
-
-	@Transient
+	@ManyToOne
+	@JoinColumn(name = "ID_PISC_CICLO", nullable = false)
 	private Ciclo ciclo;
+
+	@ManyToOne
+	@JoinColumn(name = "ID_PISC_TANQUE", nullable = false)
+	private Tanque tanque;
 
 	public Long getId() {
 		return id;
@@ -43,20 +43,13 @@ public class CicloTanque extends AbstractEntity implements Serializable {
 		this.id = id;
 	}
 
-	public int getQuanidadePeixe() {
-		return quanidadePeixe;
+	public Ciclo getCiclo() {
+		return ciclo;
 	}
 
-	public void setQuanidadePeixe(int quanidadePeixe) {
-		this.quanidadePeixe = quanidadePeixe;
+	public void setCiclo(Ciclo ciclo) {
+		this.ciclo = ciclo;
 	}
-
-	/*
-	 * public CicloTanquePk getCicloTanquePk() { return cicloTanquePk; }
-	 * 
-	 * public void setCicloTanquePk(CicloTanquePk cicloTanquePk) {
-	 * this.cicloTanquePk = cicloTanquePk; }
-	 */
 
 	public Tanque getTanque() {
 		return tanque;
@@ -66,12 +59,12 @@ public class CicloTanque extends AbstractEntity implements Serializable {
 		this.tanque = tanque;
 	}
 
-	public Ciclo getCiclo() {
-		return ciclo;
+	public int getQuantidadePeixe() {
+		return quantidadePeixe;
 	}
 
-	public void setCiclo(Ciclo ciclo) {
-		this.ciclo = ciclo;
+	public void setQuantidadePeixe(int quantidadePeixe) {
+		this.quantidadePeixe = quantidadePeixe;
 	}
 
 }

@@ -63,5 +63,4 @@ public class Ciclo extends AbstractEntity implements Serializable {
 	public void setPeriodo(String periodo) {
 		this.periodo = periodo;
 	}
-
 }

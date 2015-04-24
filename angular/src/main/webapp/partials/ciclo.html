@@ -11,14 +11,17 @@
 					required autofocus /> <span class="error" ng-show="errors.periodo">{{errors.periodo}}</span>
 			</div>
 			<div>
-				<label for="preco">Data Inicio:</label> 
-				<input type="date" name="dataInicio" pattern="dd/MM/YYYY"
+				<label for="dataInicio">Data Inicio:</label> 
+				<input type="date" name="dataInicio" 
 					id="dataInicio" ng-model="newCiclo.dataInicio" placeholder="Your dataInicio"
 					required /> <span class="error" ng-show="errors.dataInicio">{{errors.dataInicio}}</span>
-					
-				<a href="#" editable-bsdate="dataInicio" e-datepicker-popup="dd-MMMM-yyyy">
-				    {{ (user.dob | date:"dd/MM/yyyy") || 'empty' }}
-				  </a>
+			</div>
+			<div>
+				<label for="dataFim">Data Fim:</label> 
+				<input type="date" name="dataFim" 
+					id="dataFim" ng-model="newCiclo.dataFim" placeholder="Your dataFim"
+					required /> <span class="error" ng-show="errors.dataFim">{{errors.dataFim}}</span>	
+				
 			</div>
 
 			<!-- We output a list of success messages (appropriately styled!) for the form. -->

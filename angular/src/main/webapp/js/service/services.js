@@ -12,3 +12,18 @@ angular.module('ciclosService', [ 'ngResource' ]).factory('Ciclos',
 		function($resource) {
 			return $resource('rest/ciclos/:cicloId', {});
 		});
+
+angular.module('usuariosService', [ 'ngResource' ]).factory('Usuarios',
+		function($resource) {
+			return $resource('rest/usuarios/:usuarioId', {});
+		});
+
+angular.module('tanquesService', [ 'ngResource' ]).factory('Tanques',
+		function($resource) {
+			return $resource('rest/tanques/:tanqueId', {});
+		});
+
+angular.module('cicloTanquesService', [ 'ngResource' ]).factory('CicloTanques',
+		function($resource) {
+			return $resource('rest/cicloTanques/:cicloTanqueId', {});
+		});

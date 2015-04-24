@@ -35,7 +35,7 @@ import br.com.ss.alevino.model.Member;
 import br.com.ss.alevino.service.MemberRegistration;
 import br.com.ss.alevino.util.Resources;
 
-@RunWith(Arquillian.class)
+//@RunWith(Arquillian.class)
 public class MemberRegistrationTest {
     @Deployment
     public static Archive<?> createTestArchive() {
