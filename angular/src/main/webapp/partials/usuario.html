@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div>
+	<!-- Standard HTML form, with the submit function bound to the register() function defined in the the controller -->
+	<form id="reg" ng-submit="register()">
+		<fieldset>
+			<legend>Cadastrar Usuario:</legend>
+			<!-- Each input is bound to a property on the prototype newUsuario object -->
+			<div>
+				<label for="name">Nome:</label> <input type="text" name="nome"
+					id="nome" ng-model="newUsuario.nome" placeholder="Your Nome"
+					required autofocus /> <span class="error" ng-show="errors.nome">{{errors.nome}}</span>
+			</div>
+			<div>
+				<label for="login">Login:</label> <input type="number" name="login"
+					id="login" ng-model="newUsuario.login" placeholder="Your login"
+					required /> <span class="error" ng-show="errors.login">{{errors.login}}</span>
+			</div>
+			<div>
+				<label for="senha">Senha:</label> <input type="text" name="senha"
+					id="senha" ng-model="newUsuario.senha" placeholder="Your senha"
+					required /> <span class="error" ng-show="errors.senha">{{errors.senha}}</span>
+			</div>
+
+			<!-- We output a list of success messages (appropriately styled!) for the form. -->
+			<ul ng-hide="!successMessages" class="success">
+				<li ng-repeat="message in successMessages">{{message}}</li>
+			</ul>
+
+			<!-- Output the list of error messages if any. -->
+			<ul ng-hide="!errorMessages" class="error">
+				<li ng-repeat="message in errorMessages">{{message}}</li>
+			</ul>
+
+			<!-- There are two buttons, the default submit action (which is bound for the whole form), and a reset button, that clears the form. -->
+			<div>
+				<input type="submit" id="register" value="Register"
+					class="btn btn-mini btn-primary" /> <input type="button"
+					ng-click="reset()" name="cancel" id="cancel" value="Cancel"
+					class="btn btn-mini btn-danger" />
+			</div>
+		</fieldset>
+	</form>
+
+	<!-- A list of registered usuarios -->
+	<h2>Listagem de Usuario</h2>
+	<!-- If there are no usuarios registered, instead of showing the table, we show a simple message. -->
+	<em ng-show="usuarios.length == 0">No registered usuarios.</em>
+	<table ng-hide="usuarios.length == 0" class="simpletablestyle">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Login</th>
+				<th>Senha</th>
+				<th>REST URL</th>
+			</tr>
+		</thead>
+		<!-- The table is built using the AngularJS repeat function, iterating over the usuarios variable, and ordering by the property specified in the orderBy variable -->
+		<tr ng-repeat="usuario in usuarios | orderBy:orderBy">
+			<td>{{usuario.id}}</td>
+			<td>{{usuario.nome}}</td>
+			<td>{{usuario.login}}</td>
+			<td>{{usuario.senha}}</td>
+			<td><a href="rest/usuarios/{{usuario.id}}">/rest/usuarios/{{usuario.id}}</a>
+			</td>
+	</table>
+	<div>
+		REST URL for all usuarios: <a href="rest/usuarios">/rest/usuarios</a>
+	</div>
+	<div>
+		<!-- The table has a button to manually refresh the values, in case, for example, someone else adds a usuario -->
+		<input type="button" ng-click="refresh()" name="refresh"
+			class="btn btn-mini btn-info" id="refresh" value="Refresh" />
+	</div>
+</div>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div>
+	<!-- Standard HTML form, with the submit function bound to the register() function defined in the the controller -->
+	<form id="reg" ng-submit="register()">
+		<fieldset>
+			<legend>Cadastrar Ciclo Tanque:</legend>
+			<!-- Each input is bound to a property on the prototype newTanque object -->
+			<div>
+				<label for="quantidadePeixe">Quantidade de Peixe:</label> <input type="text" name="quantidadePeixe"
+					id="quantidadePeixe" ng-model="newCicloTanque.quantidadePeixe" placeholder="Your quantidadePeixe"
+					required autofocus /> <span class="error" ng-show="errors.quantidadePeixe">{{errors.quantidadePeixe}}</span>
+			</div>
+
+			<!-- We output a list of success messages (appropriately styled!) for the form. -->
+			<ul ng-hide="!successMessages" class="success">
+				<li ng-repeat="message in successMessages">{{message}}</li>
+			</ul>
+
+			<!-- Output the list of error messages if any. -->
+			<ul ng-hide="!errorMessages" class="error">
+				<li ng-repeat="message in errorMessages">{{message}}</li>
+			</ul>
+
+			<!-- There are two buttons, the default submit action (which is bound for the whole form), and a reset button, that clears the form. -->
+			<div>
+				<input type="submit" id="register" value="Register"
+					class="btn btn-mini btn-primary" /> <input type="button"
+					ng-click="reset()" name="cancel" id="cancel" value="Cancel"
+					class="btn btn-mini btn-danger" />
+			</div>
+		</fieldset>
+	</form>
+
+	<!-- A list of registered tanques -->
+	<h2>Listagem de Ciclo Tanque</h2>
+	<!-- If there are no tanques registered, instead of showing the table, we show a simple message. -->
+	<em ng-show="cicloTanques.length == 0">No registered tanques.</em>
+	<table ng-hide="cicloTanques.length == 0" class="simpletablestyle">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Quantidade de Peixe</th>
+				<th>REST URL</th>
+			</tr>
+		</thead>
+		<!-- The table is built using the AngularJS repeat function, iterating over the tanques variable, and ordering by the property specified in the orderBy variable -->
+		<tr ng-repeat="tanque in tanques | orderBy:orderBy">
+			<td>{{cicloTanque.id}}</td>
+			<td>{{cicloTanque.quantidadePeixe}}</td>
+			<td><a href="rest/cicloTanques/{{tanque.id}}">/rest/cicloTanques/{{tanque.id}}</a>
+			</td>
+	</table>
+	<div>
+		REST URL for all tanques: <a href="rest/cicloTanques">/rest/cicloTanques</a>
+	</div>
+	<div>
+		<!-- The table has a button to manually refresh the values, in case, for example, someone else adds a tanque -->
+		<input type="button" ng-click="refresh()" name="refresh"
+			class="btn btn-mini btn-info" id="refresh" value="Refresh" />
+	</div>
+</div>
