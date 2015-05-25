@@ -16,9 +16,6 @@ public abstract class AbstractEntity implements Serializable {
 	private static final long serialVersionUID = -1094782059469169706L;
 
 	@Transient
-	private boolean checked;
-
-	@Transient
 	private Long id = null;
 
 	public AbstractEntity() {
@@ -74,14 +71,6 @@ public abstract class AbstractEntity implements Serializable {
 		}
 
 		return true;
-	}
-
-	public boolean isChecked() {
-		return checked;
-	}
-
-	public void setChecked(boolean checked) {
-		this.checked = checked;
 	}
 
 	public Long getId() {

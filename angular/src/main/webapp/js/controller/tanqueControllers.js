@@ -1,4 +1,4 @@
-function TanquesCtrl($scope, $http, Tanques) {
+function TanquesCtrl($scope, $http, $location, Tanques) {
 
 	// Define a refresh function, that updates the data from the REST service
 	$scope.refresh = function() {
@@ -11,6 +11,12 @@ function TanquesCtrl($scope, $http, Tanques) {
 		// clear input fields
 		$scope.newTanque = {};
 	};
+	
+	$scope.removeTanque = function() {
+		console.log('teste');
+		alert('teste ' + $scope.tanque.id);
+		templateUrl : 'partials/tanque.html';
+	}
 
 	// Define a register function, which adds the tanque using the REST service,
 	// and displays any error messages

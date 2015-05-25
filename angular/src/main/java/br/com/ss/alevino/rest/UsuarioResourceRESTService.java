@@ -66,6 +66,26 @@ public class UsuarioResourceRESTService {
 	@Inject
 	UsuarioRegistration registration;
 
+	/**
+	 * Realiza a autentica��o do usu�rio com os dados informados.
+	 * 
+	 * @param login
+	 * @param password
+	 * @return
+	 */
+	@GET
+	@Path("/autenticar/login/{login}/senha/{senha}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Usuario autenticarUsuario(@PathParam("login") String login,
+			@PathParam("senha") String senha) {
+		System.out.println("login " + login);
+		Usuario usuarioLogado = repository.autenticar(login, senha);
+		if (usuarioLogado == null) {
+			return null;
+		}
+		return usuarioLogado;
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Usuario> listAllUsuarios() {

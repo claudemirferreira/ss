@@ -37,6 +37,10 @@ public class TanqueRepository {
 		return em.find(Tanque.class, id);
 	}
 
+	public void delete(Long id) {
+		em.remove(new Tanque(id));
+	}
+
 	public Tanque findByNome(String nome) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Tanque> criteria = cb.createQuery(Tanque.class);

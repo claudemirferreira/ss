@@ -31,6 +31,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -81,6 +82,26 @@ public class TanqueResourceRESTService {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
 		return tanque;
+	}
+
+	/**
+	 * metodo para deletar um tanque da base de dados
+	 * 
+	 * @param id
+	 * @return
+	 */
+
+	@DELETE
+	@Path("/{id:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void deleteById(@PathParam("id") long id) {
+		Tanque tanque = new Tanque(id);
+		try {
+			registration.delete(tanque);
+		} catch (Exception e) {
+			System.out.println("Ocorreu um erro");
+			e.printStackTrace();
+		}
 	}
 
 	/**

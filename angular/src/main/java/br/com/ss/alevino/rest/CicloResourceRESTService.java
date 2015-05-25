@@ -68,6 +68,7 @@ public class CicloResourceRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes
 	public List<Ciclo> listAllRacaos() {
 		return repository.findAllOrderedByPerildo();
 	}

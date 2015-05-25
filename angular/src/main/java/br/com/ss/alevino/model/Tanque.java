@@ -24,6 +24,14 @@ public class Tanque extends AbstractEntity implements Serializable {
 
 	@Column(length = 20, unique = true, nullable = false)
 	private String nome;
+	
+	public Tanque() {
+		super();
+	}
+
+	public Tanque(Long id) {
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;

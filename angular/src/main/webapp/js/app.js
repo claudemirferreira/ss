@@ -30,7 +30,12 @@ angular.module(
 				templateUrl : 'partials/cicloTanque.html',
 				controller : CicloTanquesCtrl
 			// Add a default route
+			}).when('/login', {
+				templateUrl : 'partials/login.html',
+				controller : LoginCtrl
+			// Add a default route
 			}).otherwise({
+				
 				redirectTo : '/home'
 			});
 		} ]);

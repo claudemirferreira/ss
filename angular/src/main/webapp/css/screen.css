@@ -88,7 +88,7 @@ span.invalid {
 form {
   padding: 1em;
   font: 80%/1 sans-serif;
-  width: 375px;
+  width: 100%;
   border: 1px solid #D5D5D5;
 }
 label {

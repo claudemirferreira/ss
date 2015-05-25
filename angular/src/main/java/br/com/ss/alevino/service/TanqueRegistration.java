@@ -43,4 +43,10 @@ public class TanqueRegistration {
 		em.persist(tanque);
 		tanqueEventSrc.fire(tanque);
 	}
+
+	public void delete(Tanque tanque) throws Exception {
+		log.info("Registering " + tanque.getNome());
+		em.remove(em.merge(tanque));
+		tanqueEventSrc.fire(tanque);
+	}
 }

@@ -40,13 +40,16 @@
 			<tr>
 				<th>Id</th>
 				<th>Nome</th>
+				<th>Acao</th>
 				<th>REST URL</th>
 			</tr>
 		</thead>
 		<!-- The table is built using the AngularJS repeat function, iterating over the tanques variable, and ordering by the property specified in the orderBy variable -->
-		<tr ng-repeat="tanque in tanques | orderBy:orderBy">
-			<td>{{tanque.id}}</td>
-			<td>{{tanque.nome}}</td>
+		<tr ng-repeat="tanqueE in tanques | orderBy:orderBy">
+			<td>{{tanqueE.id}}</td>
+			<td>{{tanqueE.nome}}</td>
+			<td><a href="#" ng-click="removeTanque(tanqueE)">Excluir</a>
+			</td>
 			<td><a href="rest/tanques/{{tanque.id}}">/rest/tanques/{{tanque.id}}</a>
 			</td>
 	</table>
