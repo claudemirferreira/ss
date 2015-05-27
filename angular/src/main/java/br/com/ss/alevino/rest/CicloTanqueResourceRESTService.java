@@ -40,10 +40,10 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import br.com.ss.alevino.data.CicloTanqueRepository;
 import br.com.ss.alevino.model.Ciclo;
 import br.com.ss.alevino.model.CicloTanque;
 import br.com.ss.alevino.model.Tanque;
+import br.com.ss.alevino.repositorio.dao.CicloTanqueRepository;
 import br.com.ss.alevino.service.CicloTanqueRegistration;
 
 /**

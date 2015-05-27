@@ -31,7 +31,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import br.com.ss.alevino.model.Member;
+import br.com.ss.alevino.repositorio.model.Member;
 import br.com.ss.alevino.service.MemberRegistration;
 import br.com.ss.alevino.util.Resources;
 

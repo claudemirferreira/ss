@@ -40,8 +40,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import br.com.ss.alevino.data.UsuarioRepository;
 import br.com.ss.alevino.model.Usuario;
+import br.com.ss.alevino.repositorio.dao.UsuarioRepository;
 import br.com.ss.alevino.service.UsuarioRegistration;
 
 /**

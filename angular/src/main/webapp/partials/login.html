@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div ng-controller="LoginCtrl">
+
+	<form id="reg" ng-submit="autenticar()">
+		<fieldset>
+			<legend>Controle de Acesso de Usuario</legend>
+			<!-- Each input is bound to a property on the prototype newRacao object -->
+			<div>
+				<label for="login">Login:</label> <input type="text" name="login"
+					id="login" ng-model="newUsuarioLogado.login"
+					placeholder="Your Login" required autofocus /> <span class="error"
+					ng-show="errors.login">{{errors.login}}</span>
+			</div>
+			<div>
+				<label for="senha">Senha:</label> <input type="password"
+					name="senha" id="senha" ng-model="newUsuarioLogado.senha"
+					placeholder="Your Senha" required /> <span class="error"
+					ng-show="errors.senha">{{errors.senha}}</span>
+			</div>
+
+			<!-- We output a list of success messages (appropriately styled!) for the form. -->
+			<ul ng-hide="!successMessages" class="success">
+				<li ng-repeat="message in successMessages">{{message}}</li>
+			</ul>
+
+			<!-- Output the list of error messages if any. -->
+			<ul ng-hide="!errorMessages" class="error">
+				<li ng-repeat="message in errorMessages">{{message}}</li>
+			</ul>
+
+			<!-- There are two buttons, the default submit action (which is bound for the whole form), and a reset button, that clears the form. -->
+			<div>
+				<input type="submit" id="register" value="Logar"
+					class="btn btn-mini btn-primary" /> <input type="button"
+					ng-click="reset()" name="cancel" id="cancel" value="Cancel"
+					class="btn btn-mini btn-danger" />
+			</div>
+		</fieldset>
+	</form>
+
+</div>

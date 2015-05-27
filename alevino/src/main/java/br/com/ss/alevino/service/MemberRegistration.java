@@ -16,7 +16,7 @@
  */
 package br.com.ss.alevino.service;
 
-import br.com.ss.alevino.model.Member;
+import br.com.ss.alevino.repositorio.model.Member;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;

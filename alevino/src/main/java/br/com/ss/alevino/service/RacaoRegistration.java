@@ -23,7 +23,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import br.com.ss.alevino.model.Racao;
+import br.com.ss.alevino.repositorio.model.Racao;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless

@@ -16,31 +16,44 @@
  */
 package br.com.ss.alevino.service;
 
-import br.com.ss.alevino.model.Member;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import java.util.logging.Logger;
+import br.com.ss.alevino.model.Member;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
 public class MemberRegistration {
 
-    @Inject
-    private Logger log;
+	@Inject
+	private Logger log;
 
-    @Inject
-    private EntityManager em;
+	@Inject
+	private EntityManager em;
 
-    @Inject
-    private Event<Member> memberEventSrc;
+	@Inject
+	private Event<Member> memberEventSrc;
 
-    public void register(Member member) throws Exception {
-        log.info("Registering " + member.getName());
-        em.persist(member);
-        memberEventSrc.fire(member);
-    }
+	public void register(Member member) throws Exception {
+		log.info("Registering " + member.getName());
+		em.persist(member);
+		memberEventSrc.fire(member);
+	}
+	
+	public void update(Member member) throws Exception {
+		log.info("Registering " + member.getName());
+		em.merge(member);
+		memberEventSrc.fire(member);
+	}
+
+	public void remove(Long id) throws Exception {
+		Member member = em.find(Member.class, id);
+		log.info("Registering " + member.getName());
+		em.remove(member);
+		memberEventSrc.fire(member);
+	}
 }

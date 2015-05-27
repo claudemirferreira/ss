@@ -40,8 +40,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import br.com.ss.alevino.data.CicloRepository;
 import br.com.ss.alevino.model.Ciclo;
+import br.com.ss.alevino.repositorio.dao.CicloRepository;
 import br.com.ss.alevino.service.CicloRegistration;
 
 /**

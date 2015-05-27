@@ -1,4 +1,12 @@
 function RacaosCtrl($scope, $http, Racaos) {
+	
+	var resource = $resource('/angular/rest/racaos/:id');
+	
+	// Define a refresh function, that updates the data from the REST service
+    $scope.remove = function(id) {
+    	resource.delete({id: id});
+    	$scope.refresh();
+    };
 
     // Define a refresh function, that updates the data from the REST service
     $scope.refresh = function() {

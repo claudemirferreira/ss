@@ -40,8 +40,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import br.com.ss.alevino.data.MemberRepository;
-import br.com.ss.alevino.model.Member;
+import br.com.ss.alevino.repositorio.dao.MemberRepository;
+import br.com.ss.alevino.repositorio.model.Member;
 import br.com.ss.alevino.service.MemberRegistration;
 
 /**
