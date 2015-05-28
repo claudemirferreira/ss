@@ -32,7 +32,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import br.com.ss.alevino.model.Member;
-import br.com.ss.alevino.service.MemberRegistration;
+import br.com.ss.alevino.service.MemberService;
 import br.com.ss.alevino.util.Resources;
 
 //@RunWith(Arquillian.class)
@@ -40,7 +40,7 @@ public class MemberRegistrationTest {
     @Deployment
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(Member.class, MemberRegistration.class, Resources.class)
+                .addClasses(Member.class, MemberService.class, Resources.class)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // Deploy our test datasource
@@ -48,7 +48,7 @@ public class MemberRegistrationTest {
     }
 
     @Inject
-    MemberRegistration memberRegistration;
+    MemberService memberRegistration;
 
     @Inject
     Logger log;

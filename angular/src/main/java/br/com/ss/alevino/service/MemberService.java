@@ -16,44 +16,59 @@
  */
 package br.com.ss.alevino.service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import br.com.ss.alevino.model.Member;
+import br.com.ss.alevino.repositorio.dao.MemberDAO;
 
-// The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
-public class MemberRegistration {
+public class MemberService {
 
 	@Inject
 	private Logger log;
 
 	@Inject
-	private EntityManager em;
+	private MemberDAO dao;
 
 	@Inject
 	private Event<Member> memberEventSrc;
 
 	public void register(Member member) throws Exception {
 		log.info("Registering " + member.getName());
-		em.persist(member);
-		memberEventSrc.fire(member);
-	}
-	
-	public void update(Member member) throws Exception {
-		log.info("Registering " + member.getName());
-		em.merge(member);
+		dao.save(member);
 		memberEventSrc.fire(member);
 	}
 
-	public void remove(Long id) throws Exception {
-		Member member = em.find(Member.class, id);
+	public void update(Member member) throws Exception {
 		log.info("Registering " + member.getName());
-		em.remove(member);
+		dao.update(member);
 		memberEventSrc.fire(member);
+	}
+
+	public Member findById(Long id) throws Exception {
+		log.info("Registering " + id);
+		Member member = dao.find(id);
+		memberEventSrc.fire(member);
+		return member;
+	}
+
+	public void remove(Long id) throws Exception {
+		Member member = dao.find(id);
+		log.info("Registering " + member.getName());
+		dao.remove(member);
+		memberEventSrc.fire(member);
+	}
+
+	public List<Member> findAllOrderedByName() {
+		return dao.findAllOrderedByName();
+	}
+	
+	public Member findByEmail(String email){
+		return dao.findByEmail(email);
 	}
 }

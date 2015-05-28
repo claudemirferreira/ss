@@ -32,7 +32,7 @@ import br.com.ss.alevino.model.Tanque;
 public class TanqueListProducer {
 
 	@Inject
-	private TanqueRepository tanqueRepository;
+	private TanqueDAO dao;
 
 	private List<Tanque> tanques;
 
@@ -52,6 +52,6 @@ public class TanqueListProducer {
 
 	@PostConstruct
 	public void retrieveAllTanquesOrderedByNome() {
-		tanques = tanqueRepository.findAllOrderedByNome();
+		tanques = dao.findAllOrderedByNome();
 	}
 }

@@ -15,11 +15,11 @@ public class TanqueDAO extends GenericDAO<Tanque> {
 		super(Tanque.class);
 	}
 
-	public List<Tanque> findAllOrderedByName() {
+	public List<Tanque> findAllOrderedByNome() {
 		CriteriaBuilder cb = this.em.getCriteriaBuilder();
 		CriteriaQuery<Tanque> criteria = cb.createQuery(Tanque.class);
 		Root<Tanque> tanque = criteria.from(Tanque.class);
-		criteria.select(tanque).orderBy(cb.asc(tanque.get("name")));
+		criteria.select(tanque).orderBy(cb.asc(tanque.get("nome")));
 		return em.createQuery(criteria).getResultList();
 	}
 }

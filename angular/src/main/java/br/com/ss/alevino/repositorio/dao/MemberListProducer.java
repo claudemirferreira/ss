@@ -16,6 +16,8 @@
  */
 package br.com.ss.alevino.repositorio.dao;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
@@ -26,30 +28,30 @@ import javax.inject.Named;
 
 import br.com.ss.alevino.model.Member;
 
-import java.util.List;
-
 @RequestScoped
 public class MemberListProducer {
 
-    @Inject
-    private MemberRepository memberRepository;
+	@Inject
+	private MemberDAO dao;
 
-    private List<Member> members;
+	private List<Member> members;
 
-    // @Named provides access the return value via the EL variable name "members" in the UI (e.g.
-    // Facelets or JSP view)
-    @Produces
-    @Named
-    public List<Member> getMembers() {
-        return members;
-    }
+	// @Named provides access the return value via the EL variable name
+	// "members" in the UI (e.g.
+	// Facelets or JSP view)
+	@Produces
+	@Named
+	public List<Member> getMembers() {
+		return members;
+	}
 
-    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
-        retrieveAllMembersOrderedByName();
-    }
+	public void onMemberListChanged(
+			@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
+		retrieveAllMembersOrderedByName();
+	}
 
-    @PostConstruct
-    public void retrieveAllMembersOrderedByName() {
-        members = memberRepository.findAllOrderedByName();
-    }
+	@PostConstruct
+	public void retrieveAllMembersOrderedByName() {
+		members = dao.findAllOrderedByName();
+	}
 }

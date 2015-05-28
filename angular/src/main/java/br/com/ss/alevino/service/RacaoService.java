@@ -16,30 +16,55 @@
  */
 package br.com.ss.alevino.service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
-import br.com.ss.alevino.model.CicloTanque;
+import br.com.ss.alevino.model.Racao;
+import br.com.ss.alevino.repositorio.dao.RacaoDAO;
 
 @Stateless
-public class CicloTanqueRegistration {
+public class RacaoService {
 
 	@Inject
 	private Logger log;
 
 	@Inject
-	private EntityManager em;
+	private RacaoDAO dao;
 
 	@Inject
-	private Event<CicloTanque> racaoEventSrc;
+	private Event<Racao> racaoEventSrc;
 
-	public void register(CicloTanque cicloTanque) throws Exception {
-		log.info("Registering " + cicloTanque.getTanque().getNome());
-		em.persist(cicloTanque);
-		racaoEventSrc.fire(cicloTanque);
+	public void register(Racao racao) throws Exception {
+		log.info("Registering " + racao.getNome());
+		dao.save(racao);
+		racaoEventSrc.fire(racao);
+	}
+
+	public void update(Racao racao) throws Exception {
+		log.info("Registering " + racao.getNome());
+		dao.update(racao);
+		racaoEventSrc.fire(racao);
+	}
+
+	public Racao findById(Long id) throws Exception {
+		log.info("Registering " + id);
+		Racao racao = dao.find(id);
+		racaoEventSrc.fire(racao);
+		return racao;
+	}
+
+	public void remove(Long id) throws Exception {
+		Racao racao = dao.find(id);
+		log.info("Registering " + racao.getNome());
+		dao.remove(racao);
+		racaoEventSrc.fire(racao);
+	}
+
+	public List<Racao> findAllOrderedByNome() {
+		return dao.findAllOrderedByNome();
 	}
 }

@@ -16,31 +16,56 @@
  */
 package br.com.ss.alevino.service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
-import br.com.ss.alevino.model.Usuario;
+import br.com.ss.alevino.model.Tanque;
+import br.com.ss.alevino.repositorio.dao.TanqueDAO;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
-public class UsuarioRegistration {
+public class TanqueService {
 
 	@Inject
 	private Logger log;
 
 	@Inject
-	private EntityManager em;
+	private TanqueDAO dao;
 
 	@Inject
-	private Event<Usuario> usuarioEventSrc;
+	private Event<Tanque> tanqueEventSrc;
 
-	public void register(Usuario usuario) throws Exception {
-		log.info("Registering " + usuario.getNome());
-		em.persist(usuario);
-		usuarioEventSrc.fire(usuario);
+	public void register(Tanque tanque) throws Exception {
+		log.info("Registering " + tanque.getNome());
+		dao.save(tanque);
+		tanqueEventSrc.fire(tanque);
+	}
+
+	public void update(Tanque tanque) throws Exception {
+		log.info("Registering " + tanque.getNome());
+		dao.update(tanque);
+		tanqueEventSrc.fire(tanque);
+	}
+
+	public Tanque findById(Long id) throws Exception {
+		log.info("Registering " + id);
+		Tanque tanque = dao.find(id);
+		tanqueEventSrc.fire(tanque);
+		return tanque;
+	}
+
+	public void remove(Long id) throws Exception {
+		Tanque tanque = dao.find(id);
+		log.info("Registering " + tanque.getNome());
+		dao.remove(tanque);
+		tanqueEventSrc.fire(tanque);
+	}
+
+	public List<Tanque> findAllOrderedByNome() {
+		return dao.findAllOrderedByNome();
 	}
 }

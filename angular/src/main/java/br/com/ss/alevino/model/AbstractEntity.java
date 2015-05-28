@@ -33,10 +33,6 @@ public abstract class AbstractEntity implements Serializable {
 		}
 	}
 
-	public boolean isPersistent() {
-		return getId() != null;
-	}
-
 	/** HashCode. */
 	@Override
 	public int hashCode() {

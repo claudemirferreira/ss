@@ -32,7 +32,7 @@ import br.com.ss.alevino.model.Racao;
 public class RacaoListProducer {
 
 	@Inject
-	private RacaoRepository racaoRepository;
+	private RacaoDAO dao;
 
 	private List<Racao> racaos;
 
@@ -52,6 +52,6 @@ public class RacaoListProducer {
 
 	@PostConstruct
 	public void retrieveAllRacaosOrderedByNome() {
-		racaos = racaoRepository.findAllOrderedByNome();
+		racaos = dao.findAll();
 	}
 }

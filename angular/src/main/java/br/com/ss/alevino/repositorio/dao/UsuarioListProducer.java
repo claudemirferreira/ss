@@ -32,7 +32,7 @@ import br.com.ss.alevino.model.Usuario;
 public class UsuarioListProducer {
 
 	@Inject
-	private UsuarioRepository usuarioRepository;
+	private UsuarioDAO usuarioRepository;
 
 	private List<Usuario> usuarios;
 

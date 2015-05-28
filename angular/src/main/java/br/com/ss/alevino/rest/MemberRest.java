@@ -25,10 +25,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import br.com.ss.alevino.model.Member;
-import br.com.ss.alevino.repositorio.dao.MemberRepository;
-import br.com.ss.alevino.service.MemberRegistration;
+import br.com.ss.alevino.model.Usuario;
+import br.com.ss.alevino.service.MemberService;
 
 /**
  * JAX-RS Example
@@ -38,7 +39,7 @@ import br.com.ss.alevino.service.MemberRegistration;
  */
 @Path("/members")
 @RequestScoped
-public class MemberResourceRESTService {
+public class MemberRest {
 
 	@Inject
 	private Logger log;
@@ -47,22 +48,22 @@ public class MemberResourceRESTService {
 	private Validator validator;
 
 	@Inject
-	private MemberRepository repository;
+	private MemberService service;
 
 	@Inject
-	MemberRegistration registration;
+	MemberService registration;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Member> listAllMembers() {
-		return repository.findAllOrderedByName();
+		return service.findAllOrderedByName();
 	}
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Member lookupMemberById(@PathParam("id") long id) {
-		Member member = repository.findById(id);
+	public Member lookupMemberById(@PathParam("id") long id) throws Exception {
+		Member member = service.findById(id);
 		if (member == null) {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
@@ -109,6 +110,18 @@ public class MemberResourceRESTService {
 		return builder.build();
 	}
 
+	@GET
+	@Path("{id}")
+	public Response buscarMember(@PathParam("id") Long id) throws Exception {
+		Member member = registration.findById(id);
+		if (member == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		Response resposta = Response.ok(member).build();
+		return resposta;
+
+	}
+
 	@Path("/{id:[0-9][0-9]*}")
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
@@ -119,16 +132,13 @@ public class MemberResourceRESTService {
 		registration.remove(id);
 		// return Response.ok().build();
 	}
-	
-	@Path("/{id:[0-9][0-9]*}")
+
+//	@Path("/{id:[0-9][0-9]*}")
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public void updateMember(@PathParam("id") long id) throws Exception {
-		System.out.println(" excluindo o registro = " + id);
-		Member member = new Member();
-		member.setId(id);
+	public Response updateMember(Member member) throws Exception {
 		registration.update(member);
-		// return Response.ok().build();
+		return Response.ok().build();
 	}
 
 	/**
@@ -204,7 +214,7 @@ public class MemberResourceRESTService {
 	public boolean emailAlreadyExists(String email) {
 		Member member = null;
 		try {
-			member = repository.findByEmail(email);
+			member = service.findByEmail(email);
 		} catch (NoResultException e) {
 			// ignore
 		}

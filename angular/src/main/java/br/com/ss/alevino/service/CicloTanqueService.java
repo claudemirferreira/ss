@@ -23,11 +23,10 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import br.com.ss.alevino.model.Racao;
+import br.com.ss.alevino.model.CicloTanque;
 
-// The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
-public class RacaoRegistration {
+public class CicloTanqueService {
 
 	@Inject
 	private Logger log;
@@ -36,11 +35,11 @@ public class RacaoRegistration {
 	private EntityManager em;
 
 	@Inject
-	private Event<Racao> racaoEventSrc;
+	private Event<CicloTanque> racaoEventSrc;
 
-	public void register(Racao racao) throws Exception {
-		log.info("Registering " + racao.getNome());
-		em.persist(racao);
-		racaoEventSrc.fire(racao);
+	public void register(CicloTanque cicloTanque) throws Exception {
+		log.info("Registering " + cicloTanque.getTanque().getNome());
+		em.persist(cicloTanque);
+		racaoEventSrc.fire(cicloTanque);
 	}
 }

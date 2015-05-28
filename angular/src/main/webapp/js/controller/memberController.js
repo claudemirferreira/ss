@@ -1,6 +1,12 @@
-function MembersCtrl($scope, $http, $resource, Members) {
+function MembersCtrl($scope, $http, $resource, $location, Members) {
 	
     var resource = $resource('/angular/rest/members/:id');
+    
+ // callback for ng-click 'editUser':
+    $scope.editMember = function (userId) {
+    	alert('oiii');
+        $location.path('/rest/members/' + userId);
+    };
     
  // Define a refresh function, that updates the data from the REST service
     $scope.remove = function(id) {

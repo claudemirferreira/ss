@@ -14,41 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.ss.alevino.repositorio.dao;
+package br.com.ss.alevino.rest;
 
-import java.util.List;
+import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.event.Reception;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import javax.inject.Named;
+import javax.validation.Validator;
+import javax.ws.rs.Path;
 
-import br.com.ss.alevino.model.Ciclo;
-
+/**
+ * JAX-RS Example
+ * <p/>
+ * This class produces a RESTful service to read/write the contents of the
+ * tanques table.
+ */
+@Path("/cicloTanques")
 @RequestScoped
-public class CicloListProducer {
+public class CicloTanqueRest {
 
 	@Inject
-	private CicloDAO dao;
+	private Logger log;
 
-	private List<Ciclo> ciclos;
+	@Inject
+	private Validator validator;
 
-	@Produces
-	@Named
-	public List<Ciclo> getCiclos() {
-		return this.ciclos;
-	}
-
-	public void onCicloListChanged(
-			@Observes(notifyObserver = Reception.IF_EXISTS) final Ciclo ciclo) {
-		retrieveAllCiclosOrderedByPeriodo();
-	}
-
-	@PostConstruct
-	public void retrieveAllCiclosOrderedByPeriodo() {
-		this.ciclos = dao.findAll();
-	}
 }

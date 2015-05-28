@@ -40,8 +40,8 @@ public abstract class GenericDAO<T extends AbstractEntity> {
 		return em.merge(entity);
 	}
 
-	public T find(Long entityID) {
-		return em.find(entityClass, entityID);
+	public T find(Long id) {
+		return em.find(entityClass, id);
 	}
 
 	// Using the unchecked because JPA does not have a

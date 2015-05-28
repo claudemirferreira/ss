@@ -25,12 +25,12 @@ import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -40,11 +40,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import br.com.ss.alevino.model.Ciclo;
-import br.com.ss.alevino.model.CicloTanque;
 import br.com.ss.alevino.model.Tanque;
-import br.com.ss.alevino.repositorio.dao.CicloTanqueRepository;
-import br.com.ss.alevino.service.CicloTanqueRegistration;
+import br.com.ss.alevino.service.TanqueService;
 
 /**
  * JAX-RS Example
@@ -52,9 +49,9 @@ import br.com.ss.alevino.service.CicloTanqueRegistration;
  * This class produces a RESTful service to read/write the contents of the
  * tanques table.
  */
-@Path("/cicloTanques")
+@Path("/tanques")
 @RequestScoped
-public class CicloTanqueResourceRESTService {
+public class TanqueRest {
 
 	@Inject
 	private Logger log;
@@ -63,26 +60,42 @@ public class CicloTanqueResourceRESTService {
 	private Validator validator;
 
 	@Inject
-	private CicloTanqueRepository repository;
-
-	@Inject
-	CicloTanqueRegistration registration;
+	private TanqueService service;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<CicloTanque> listAllTanques() {
-		return repository.findAllOrderedByCiclo();
+	public List<Tanque> listAllTanques() {
+		return service.findAllOrderedByNome();
 	}
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public CicloTanque lookupTanqueById(@PathParam("id") long id) {
-		CicloTanque cicloTanque = repository.findById(id);
-		if (cicloTanque == null) {
+	public Tanque lookupTanqueById(@PathParam("id") long id) throws Exception {
+		Tanque tanque = service.findById(id);
+		if (tanque == null) {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
-		return cicloTanque;
+		return tanque;
+	}
+
+	/**
+	 * metodo para deletar um tanque da base de dados
+	 * 
+	 * @param id
+	 * @return
+	 */
+
+	@DELETE
+	@Path("/{id:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void deleteById(@PathParam("id") long id) {
+		try {
+			service.remove(id);
+		} catch (Exception e) {
+			System.out.println("Ocorreu um erro");
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -93,26 +106,15 @@ public class CicloTanqueResourceRESTService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createTanque(CicloTanque cicloTanque) {
-		
-		System.out.println("createTanque");
+	public Response createTanque(Tanque tanque) {
 
 		Response.ResponseBuilder builder = null;
-		
-		Ciclo c = new Ciclo();
-		c.setId(1l);
-		
-		Tanque t = new Tanque();
-		t.setId(1l);
-		
-		cicloTanque.setCiclo(c);
-		cicloTanque.setTanque(t);
 
 		try {
 			// Validates tanque using bean validation
-			// validateCicloTanque(cicloTanque);
+			validateTanque(tanque);
 
-			registration.register(cicloTanque);
+			service.register(tanque);
 
 			// Create an "ok" response
 			builder = Response.ok();
@@ -156,20 +158,15 @@ public class CicloTanqueResourceRESTService {
 	 * @throws ValidationException
 	 *             If tanque with the same email already exists
 	 */
-	private void validateCicloTanque(CicloTanque cicloTanque)
+	private void validateTanque(Tanque tanque)
 			throws ConstraintViolationException, ValidationException {
 		// Create a bean validator and check for issues.
-		Set<ConstraintViolation<CicloTanque>> violations = validator
-				.validate(cicloTanque);
+		Set<ConstraintViolation<Tanque>> violations = validator
+				.validate(tanque);
 
 		if (!violations.isEmpty()) {
 			throw new ConstraintViolationException(
 					new HashSet<ConstraintViolation<?>>(violations));
-		}
-
-		// Check the uniqueness of the email address
-		if (cicloAlreadyExists(cicloTanque.getCiclo())) {
-			throw new ValidationException("Unique Email Violation");
 		}
 	}
 
@@ -194,25 +191,5 @@ public class CicloTanqueResourceRESTService {
 		}
 
 		return Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
-	}
-
-	/**
-	 * Checks if a tanque with the same email address is already registered.
-	 * This is the only way to easily capture the
-	 * "@UniqueConstraint(columnNames = "email")" constraint from the Tanque
-	 * class.
-	 * 
-	 * @param email
-	 *            The email to check
-	 * @return True if the email already exists, and false otherwise
-	 */
-	public boolean cicloAlreadyExists(Ciclo ciclo) {
-		CicloTanque cicloTanque = null;
-		try {
-			cicloTanque = repository.findByCiclo(ciclo);
-		} catch (NoResultException e) {
-			// ignore
-		}
-		return cicloTanque != null;
 	}
 }

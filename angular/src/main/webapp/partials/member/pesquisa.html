@@ -67,7 +67,7 @@
 			<td>{{member.email}}</td>
 			<td>{{member.phoneNumber}}</td>
 			<td><button ng-click="remove(member.id)" class="btn btn-xs btn-danger">Remove</button> 
-				<button ng-click="editar(member)">Editar</button></td>
+				<button ng-click="editMember(member.id)">Editar</button></td>
 			<td><a href="rest/members/{{member.id}}">/rest/members/{{member.id}}</a>
 			</td>
 	</table>

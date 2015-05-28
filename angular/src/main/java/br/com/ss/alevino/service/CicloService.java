@@ -16,30 +16,55 @@
  */
 package br.com.ss.alevino.service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import br.com.ss.alevino.model.Ciclo;
+import br.com.ss.alevino.repositorio.dao.CicloDAO;
 
 @Stateless
-public class CicloRegistration {
+public class CicloService {
 
 	@Inject
 	private Logger log;
 
 	@Inject
-	private EntityManager em;
+	private CicloDAO dao;
 
 	@Inject
-	private Event<Ciclo> racaoEventSrc;
+	private Event<Ciclo> cicloEventSrc;
 
 	public void register(Ciclo ciclo) throws Exception {
 		log.info("Registering " + ciclo.getPeriodo());
-		em.persist(ciclo);
-		racaoEventSrc.fire(ciclo);
+		dao.save(ciclo);
+		cicloEventSrc.fire(ciclo);
+	}
+
+	public List<Ciclo> findAllOrderedByPeriodo() {
+		return dao.findAllOrderedByPeriodo();
+	}
+
+	public void update(Ciclo ciclo) throws Exception {
+		log.info("Registering " + ciclo.getPeriodo());
+		dao.update(ciclo);
+		cicloEventSrc.fire(ciclo);
+	}
+
+	public Ciclo findById(Long id) throws Exception {
+		log.info("Registering " + id);
+		Ciclo ciclo = dao.find(id);
+		cicloEventSrc.fire(ciclo);
+		return ciclo;
+	}
+
+	public void remove(Long id) throws Exception {
+		Ciclo ciclo = dao.find(id);
+		log.info("Registering " + ciclo.getPeriodo());
+		dao.remove(ciclo);
+		cicloEventSrc.fire(ciclo);
 	}
 }

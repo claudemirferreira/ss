@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -40,9 +39,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import br.com.ss.alevino.model.Ciclo;
-import br.com.ss.alevino.repositorio.dao.CicloRepository;
-import br.com.ss.alevino.service.CicloRegistration;
+import br.com.ss.alevino.model.Racao;
+import br.com.ss.alevino.service.RacaoService;
 
 /**
  * JAX-RS Example
@@ -50,9 +48,9 @@ import br.com.ss.alevino.service.CicloRegistration;
  * This class produces a RESTful service to read/write the contents of the
  * racaos table.
  */
-@Path("/ciclos")
+@Path("/racaos")
 @RequestScoped
-public class CicloResourceRESTService {
+public class RacaoRest {
 
 	@Inject
 	private Logger log;
@@ -61,27 +59,23 @@ public class CicloResourceRESTService {
 	private Validator validator;
 
 	@Inject
-	private CicloRepository repository;
-
-	@Inject
-	CicloRegistration registration;
+	private RacaoService service;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes
-	public List<Ciclo> listAllRacaos() {
-		return repository.findAllOrderedByPerildo();
+	public List<Racao> listAllRacaos() {
+		return service.findAllOrderedByNome();
 	}
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Ciclo lookupRacaoById(@PathParam("id") long id) {
-		Ciclo ciclo = repository.findById(id);
-		if (ciclo == null) {
+	public Racao lookupRacaoById(@PathParam("id") long id) throws Exception {
+		Racao racao = service.findById(id);
+		if (racao == null) {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
-		return ciclo;
+		return racao;
 	}
 
 	/**
@@ -92,15 +86,15 @@ public class CicloResourceRESTService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createRacao(Ciclo ciclo) {
+	public Response createRacao(Racao racao) {
 
 		Response.ResponseBuilder builder = null;
 
 		try {
 			// Validates racao using bean validation
-			validateCiclo(ciclo);
+			validateRacao(racao);
 
-			registration.register(ciclo);
+			service.register(racao);
 
 			// Create an "ok" response
 			builder = Response.ok();
@@ -144,19 +138,14 @@ public class CicloResourceRESTService {
 	 * @throws ValidationException
 	 *             If racao with the same email already exists
 	 */
-	private void validateCiclo(Ciclo ciclo)
+	private void validateRacao(Racao racao)
 			throws ConstraintViolationException, ValidationException {
 		// Create a bean validator and check for issues.
-		Set<ConstraintViolation<Ciclo>> violations = validator.validate(ciclo);
+		Set<ConstraintViolation<Racao>> violations = validator.validate(racao);
 
 		if (!violations.isEmpty()) {
 			throw new ConstraintViolationException(
 					new HashSet<ConstraintViolation<?>>(violations));
-		}
-
-		// Check the uniqueness of the email address
-		if (periodoAlreadyExists(ciclo.getPeriodo())) {
-			throw new ValidationException("Unique Periodo Violation");
 		}
 	}
 
@@ -181,25 +170,5 @@ public class CicloResourceRESTService {
 		}
 
 		return Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
-	}
-
-	/**
-	 * Checks if a racao with the same email address is already registered. This
-	 * is the only way to easily capture the
-	 * "@UniqueConstraint(columnNames = "email")" constraint from the Racao
-	 * class.
-	 * 
-	 * @param email
-	 *            The email to check
-	 * @return True if the email already exists, and false otherwise
-	 */
-	public boolean periodoAlreadyExists(String periodo) {
-		Ciclo ciclo = null;
-		try {
-			ciclo = repository.findByPeriodo(periodo);
-		} catch (NoResultException e) {
-			// ignore
-		}
-		return ciclo != null;
 	}
 }

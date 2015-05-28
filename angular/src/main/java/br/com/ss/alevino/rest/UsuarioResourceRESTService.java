@@ -41,8 +41,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.ss.alevino.model.Usuario;
-import br.com.ss.alevino.repositorio.dao.UsuarioRepository;
-import br.com.ss.alevino.service.UsuarioRegistration;
+import br.com.ss.alevino.repositorio.dao.UsuarioDAO;
+import br.com.ss.alevino.service.UsuarioService;
 
 /**
  * JAX-RS Example
@@ -61,10 +61,10 @@ public class UsuarioResourceRESTService {
 	private Validator validator;
 
 	@Inject
-	private UsuarioRepository repository;
+	private UsuarioDAO repository;
 
 	@Inject
-	UsuarioRegistration registration;
+	UsuarioService registration;
 
 	/**
 	 * Realiza a autentica��o do usu�rio com os dados informados.
